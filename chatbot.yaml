@@ -13,6 +13,6 @@ caila:
 
 injector:
     slotfilling:
-        maxSlotRetries: 2
+        maxSlotRetries: 10
         stopOnAnyIntent: false
         stopOnAnyIntentThreshold: 0.2

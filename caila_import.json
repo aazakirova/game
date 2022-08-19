@@ -16,6 +16,39 @@
     "shared" : false
   },
   "intents" : [ {
+    "id" : 11917294,
+    "path" : "/Согласие",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "да"
+    }, {
+      "text" : "давай"
+    }, {
+      "text" : "играем"
+    }, {
+      "text" : "хочу играть "
+    }, {
+      "text" : "начнем"
+    }, {
+      "text" : "ага"
+    }, {
+      "text" : "ок"
+    } ],
+    "patterns" : [ ],
+    "slots" : [ ],
+    "priority" : 0
+  }, {
+    "id" : 11917444,
+    "path" : "/Число",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    } ],
+    "patterns" : [ ],
+    "priority" : 0
+  }, {
     "id" : 10949760,
     "path" : "/Пока",
     "enabled" : true,
@@ -36,59 +69,18 @@
     "patterns" : [ ],
     "priority" : 0
   }, {
-    "id" : 11917294,
-    "path" : "/Согласие",
+    "id" : 11919609,
+    "path" : "/Попытка",
     "enabled" : true,
     "shared" : false,
-    "phrases" : [ {
-      "text" : "да"
-    }, {
-      "text" : "давай"
-    }, {
-      "text" : "играем"
-    }, {
-      "text" : "хочу играть "
-    }, {
-      "text" : "начнем"
-    }, {
-      "text" : "ага"
-    } ],
+    "phrases" : [ ],
     "patterns" : [ ],
     "slots" : [ {
       "name" : "Number",
       "entity" : "duckling.number",
       "required" : true,
-      "prompts" : [ "Число загадано. Сможешь угадать? " ]
+      "prompts" : [ "Предложи свой вариант" ]
     } ],
-    "priority" : 0
-  }, {
-    "id" : 11917444,
-    "path" : "/Число",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "@duckling.number"
-    } ],
-    "patterns" : [ ],
-    "priority" : 0
-  }, {
-    "id" : 11917195,
-    "path" : "/Играть",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "играть "
-    }, {
-      "text" : "давай играть "
-    }, {
-      "text" : "поиграем"
-    }, {
-      "text" : "начать игру"
-    }, {
-      "text" : "хочу поиграть"
-    } ],
-    "patterns" : [ ],
-    "slots" : [ ],
     "priority" : 0
   }, {
     "id" : 11917295,

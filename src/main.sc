@@ -3,7 +3,7 @@ require: slotfilling/slotFilling.sc
 
 require: common.js
     module = sys.zb-common
-
+    
 init:
     bind("postProcess", function($context) {
         $context.session.lastState = $context.currentState;
@@ -19,8 +19,8 @@ theme: /
             $jsapi.startSession()
         go!: /NormalButtons
     
-    state: CatchAll   
-        event!: NoMatch || noContext = true
+    state: CatchAll || noContext = true
+        event!: NoMatch
         random:
             a: Прости, я не понимаю. Давай играть?
             a: Извини, я не знаю, что тебе ответить. Сыграем в игру?
@@ -28,15 +28,14 @@ theme: /
         go!: {{$session.lastState}}    
             
     state: NormalButtons
-        intent!: /Играть
         buttons:
             "Начнем!" -> /Guess
-            "Я не знаю правила :(" -> /Rules
+            "Я не знаю правила" -> /Rules
             "Отмена" -> /Welcome
         go: /Guess
     
     state: Rules
-        a: Я загадаю 4-значное число с неповторяющимися цифрами. Ты должен угадать число. После каждой попытки я буду называть тебе число "коров" (сколько цифр угадано без совпадения с их позициями в тайном числе) и "быков" (сколько цифр угадано вплоть до позиции в тайном числе). Теперь играем?
+        a: Я загадаю 4-значное число с неповторяющимися цифрами. Ты должен угадать его. После каждой попытки я буду называть тебе число "коров" (сколько цифр угадано без совпадения с их позициями в тайном числе) и "быков" (сколько цифр угадано вплоть до позиции в тайном числе). Теперь играем?
         go: /Rules/Agree/
     
         state: Agree
@@ -49,19 +48,68 @@ theme: /
             intent: /Несогласие
             go: /Welcome
         
-
     state: Guess
         random:
             a: Попробуй угадать число, которое я загадал!
             a: Угадывай!
-            a: Сможешь догадаться? 
+            a: Сможешь угадать число? Введи его.
+        intent: /Попытка
         go: /Game    
+    
+    
+    
+    
     
     state: Game
         script:
-            $session.number = $jsapi.random(9999) + 1;
-            $reactions.answer("Загадано {{$session.number}}");
-            $reactions.transition("/Check");
+            var bulls, cows;
+            function Random(a, b)
+                {
+                    return Math.floor(Math.random()*10);
+                }
+            function Guess()
+            {
+               for (var i=0; i<4;i++) 
+               {
+                   do 
+                   {
+                       var c=Random(0,9);
+                   }
+                   while(s.indexOf(c)>=0) 
+                   s=s+c;
+               }       
+               return s;
+            }
+            function Analize(make,try)
+            {
+                bulls=0;
+                cows=0;
+                for(var i=0; i<4;i++)
+                       {
+                           if (make[i]==try[i])
+                               bulls++;
+                           else:
+                               if(make.indexOf(try[i])>=0) cows++; 
+                        }
+            }
+            var g = Guess();
+            for(var i=o,i<10;i++)
+            {
+                var num
+                Analize(g, num);
+                var s = "Твоё число: " + c + "." + "Быки: " + bulls+ "Коровы: " + cows 
+                alert(s);
+                if (g==m) 
+                {
+                    alert("Вы выиграли!");
+                    break;
+                }
+            }
+ 
+ 
+ 
+ 
+ 
         
     state: Check
         intent: /Число
@@ -69,18 +117,16 @@ theme: /
             var num = $parseTree._Number;        
             if (num == $session.number) {
                 $reactions.answer("У тебя получилось!");
-                $reactions.transition("/Rules/Agree");
+                $reactions.transition("/OneMore");
             }
 #            else
-#                if (num < $session.number)
-#                    $reactions.answer(selectRandomArg(["Мое число больше!", "Бери выше", "Попробуй число больше"]));
-#                else $reactions.answer(selectRandomArg(["Мое число меньше!", "Подсказка: число меньше", "Дам тебе еще одну попытку! Мое число меньше."]));
-
+           
         state: LocalCatchAll
             event: noMatch
             a: Пожалуйста, напиши 4-значное число с неповторяющимися цифрами.
             go!: ..  
 
+    
     state: OneMore
         a: Новый раунд? 
         go: /OneMoreButton
@@ -103,6 +149,9 @@ theme: /
 
 
 
+# console.log(countBullsAndCows($session.number, num))
+
+
     
   
 #    state: activityType || modal = true
@@ -120,15 +169,6 @@ theme: /
 #                $temp.task = getActivity($session.type);
 #            if: $temp.task 
 #                random:
-#                    a: Look what idea I've found for you! {{$temp.task.activity}}. I hope you like it!
-#                    a: {{$temp.task.activity}}. What do you think? Cool activity, isn't it?                         
-#                    a: {{$temp.task.activity}}. What an idea! 
+#                    a: «Коровы»: {}, "Быки": {}.
 #                go!: /activityType/Satisfaction
-#            
-#        state: Satisfaction
-#            buttons:
-#                "Another activity!" -> /Ask
-#                "Cool, thanks!" -> /GoodBye
-#              
-#    
-#    
+#               
