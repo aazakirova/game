@@ -39,16 +39,6 @@
     "slots" : [ ],
     "priority" : 0
   }, {
-    "id" : 11917444,
-    "path" : "/Число",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "@duckling.number"
-    } ],
-    "patterns" : [ ],
-    "priority" : 0
-  }, {
     "id" : 10949760,
     "path" : "/Пока",
     "enabled" : true,
@@ -67,20 +57,6 @@
       "text" : "поки"
     } ],
     "patterns" : [ ],
-    "priority" : 0
-  }, {
-    "id" : 11919609,
-    "path" : "/Попытка",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ ],
-    "patterns" : [ ],
-    "slots" : [ {
-      "name" : "Number",
-      "entity" : "duckling.number",
-      "required" : true,
-      "prompts" : [ "Предложи свой вариант" ]
-    } ],
     "priority" : 0
   }, {
     "id" : 11917295,
@@ -117,6 +93,22 @@
       "text" : "здравствуй"
     } ],
     "patterns" : [ ],
+    "priority" : 0
+  }, {
+    "id" : 11919609,
+    "path" : "/Попытка",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    } ],
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "Number",
+      "entity" : "duckling.number",
+      "required" : true,
+      "prompts" : [ "Предложи свой вариант" ]
+    } ],
     "priority" : 0
   } ],
   "entities" : [ ],

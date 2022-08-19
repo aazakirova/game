@@ -4,6 +4,8 @@ require: slotfilling/slotFilling.sc
 require: common.js
     module = sys.zb-common
     
+require: function.js
+    
 init:
     bind("postProcess", function($context) {
         $context.session.lastState = $context.currentState;
@@ -22,7 +24,7 @@ theme: /
     state: CatchAll || noContext = true
         event!: NoMatch
         random:
-            a: Прости, я не понимаю. Давай играть?
+            a: Прости, я не понимаю тебя. Давай играть?
             a: Извини, я не знаю, что тебе ответить. Сыграем в игру?
             a: Кажется, я не понимаю, извини. Я хочу сыграть с тобой! 
         go!: {{$session.lastState}}    
@@ -36,11 +38,10 @@ theme: /
     
     state: Rules
         a: Я загадаю 4-значное число с неповторяющимися цифрами. Ты должен угадать его. После каждой попытки я буду называть тебе число "коров" (сколько цифр угадано без совпадения с их позициями в тайном числе) и "быков" (сколько цифр угадано вплоть до позиции в тайном числе). Теперь играем?
-        go: /Rules/Agree/
     
         state: Agree
         
-            state:Yes
+            state: Yes
             intent: /Согласие
             go: /Guess    
         
@@ -57,68 +58,20 @@ theme: /
         go: /Game    
     
     
-    
-    
-    
     state: Game
         script:
-            var bulls, cows;
-            function Random(a, b)
-                {
-                    return Math.floor(Math.random()*10);
-                }
-            function Guess()
-            {
-               for (var i=0; i<4;i++) 
-               {
-                   do 
-                   {
-                       var c=Random(0,9);
-                   }
-                   while(s.indexOf(c)>=0) 
-                   s=s+c;
-               }       
-               return s;
-            }
-            function Analize(make,try)
-            {
-                bulls=0;
-                cows=0;
-                for(var i=0; i<4;i++)
-                       {
-                           if (make[i]==try[i])
-                               bulls++;
-                           else:
-                               if(make.indexOf(try[i])>=0) cows++; 
-                        }
-            }
-            var g = Guess();
-            for(var i=o,i<10;i++)
-            {
-                var num
-                Analize(g, num);
-                var s = "Твоё число: " + c + "." + "Быки: " + bulls+ "Коровы: " + cows 
-                alert(s);
-                if (g==m) 
-                {
-                    alert("Вы выиграли!");
-                    break;
-                }
-            }
+            num = $parseTree._Number;        
+            
  
  
  
- 
- 
+
+
         
-    state: Check
-        intent: /Число
-        script:
-            var num = $parseTree._Number;        
-            if (num == $session.number) {
-                $reactions.answer("У тебя получилось!");
-                $reactions.transition("/OneMore");
-            }
+#            if (num == $session.number) {
+#                $reactions.answer("У тебя получилось!");
+#                $reactions.transition("/OneMore");
+#            }
 #            else
            
         state: LocalCatchAll
@@ -129,11 +82,7 @@ theme: /
     
     state: OneMore
         a: Новый раунд? 
-        go: /OneMoreButton
-                
-    
-    state: OneMoreButton
-        buttons:
+            buttons:
             "Играть ещё" -> /Guess
             "Отмена" -> /GoodBye
     
@@ -144,7 +93,6 @@ theme: /
             a: Возвращайся скорее. Сыграем еще раз!
         intent: /Пока
             
-
 
 
 

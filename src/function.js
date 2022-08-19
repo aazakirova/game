@@ -1,32 +1,32 @@
-function countBullsAndCows(secret, suggestition) {
-  let bulls = 0, cows = 0;
-  (suggestition + '').split('').forEach((n, i) =>
-    (secret + '')[i] === n ? bulls++ : ~(secret + '').indexOf(n) && cows++);
-  return [bulls, cows];
-};
+//function countBullsAndCows(secret, suggestition) {
+//  let bulls = 0, cows = 0;
+//  (suggestition + '').split('').forEach((n, i) =>
+//    (secret + '')[i] === n ? bulls++ : ~(secret + '').indexOf(n) && cows++);
+//  return [bulls, cows];
+//};
     
 
-####
+///
 
 var bulls, cows;
-function Random(a, b)
-    {
-        return Math.floor(Math.random()*(b-a+1)+a);
-    }
-
-function Guess()
-    {
-        for (var i=0; i<4;i++) 
+    function Random(a, b)
         {
-            do 
+            return Math.floor(Math.random()*10);
+        }
+
+    function Guess()
+        {
+            for (var i=0; i<4;i++) 
             {
-                var c=Random(0,9);
-            }
-            while(s.indexOf(c)>=0) 
-            s=s+c;
-        }       
-        return s;
-    }
+                do 
+                {
+                    var c=Random(0,9);
+                }
+                while(s.indexOf(c)>=0) 
+                s=s+c;
+            }       
+            return s;
+        }
     function Analize(make,try)
         {
             bulls=0;
