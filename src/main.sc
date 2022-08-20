@@ -17,7 +17,6 @@ theme: /
         q!: $regex</start>
         intent: /Привет
         a:  Привет! Сыграем? Надеюсь, ты знаешь правила игры "Быки и коровы" ;)
-        #начинаем новую сессию
         script:
             $jsapi.startSession()
         go!: /NormalButtons
@@ -51,7 +50,6 @@ theme: /
                 intent: /Несогласие
                 go: /Welcome
                 
-            
     state: Guess
         random:
             a: Попробуй угадать число, которое я загадал!
@@ -60,35 +58,35 @@ theme: /
         # вызываем функцию, генерирующую случайное число и переходим в стейт /Check
         script:
             $session.number = GetSecretNumber(4);
-            # для проверки верности выполнения задачи:
+            # для проверки верности выполнения задачи при неободимости:
             # $reactions.answer("Загадано {{$session.number}}"); 
-
+            
     state: Check
         intent: /Попытка
         script:
-            # сохраняем введенное пользователем число и сгенерированное число в виде строки
-            var num = $parseTree._Number.toString();
-            var secret = $session.number.toString();
-            # проверяем, угадал ли пользователь загаданное число и выводим соответствующую реакцию
-            if (num == secret) {
-                $reactions.answer("Ты выиграл! Хочешь еще раз?");
-                $reactions.transition("/Rules/Agree");
-                $reactions.transition("/OneMore");
-            }
-            else {
-                if (num.length != secret.length) {
-                    $reactions.answer("Введи 4-значное число с неповторяющимися цифрами.");
+            if ($parseTree._Number && $session.number) {
+                // сохраняем введенное пользователем число и сгенерированное число в виде строки
+                var num = $parseTree._Number.toString();
+                var secret = $session.number.toString();
+                // проверяем, угадал ли пользователь загаданное число и выводим соответствующую реакцию
+                if (num == secret) {
+                    $reactions.answer("Ты выиграл!");
+                    $reactions.transition("/Rules/Agree");
+                    $reactions.transition("/OneMore");
                 }
                 else {
-                    $reactions.answer(Check(secret, num));
+                    if (num.length != secret.length) {
+                        $reactions.answer("Введи 4-значное число с неповторяющимися цифрами.");
+                    }
+                    else {
+                        $reactions.answer(Check(secret, num));
+                    }
                 }
             }
             
     state: OneMore
         a: Новый раунд? 
-        go: /Buttons    
-            
-    state: Buttons
+        q!: buttons
         buttons:
             "Играть ещё" -> /Guess
             "Отмена" -> /GoodBye

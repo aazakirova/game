@@ -2,9 +2,10 @@ function Random(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+// генерируем четырехзначное число без повторяющихся цифр
 function GetSecretNumber(length) {
     var s = '';
-    s += Random(1, 10); 
+    s += Random(1, 10); // учитываем, что первая цифра не 0
     for (var i = 1; i < length; i++) {
         do {
             var c = Random(0, 10);
@@ -15,6 +16,7 @@ function GetSecretNumber(length) {
     return Number(s);
 }
 
+// проверяем соответсвие условию
 function Check(secret, attempt) {
     var bulls = 0; 
     var cows = 0;
@@ -30,4 +32,4 @@ function Check(secret, attempt) {
     }
     var s = "Твоё число: " + attempt + ". " + "Быки: " + bulls + ". " + "Коровы: " + cows + "."
     return s;
-}    
+}  
