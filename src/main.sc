@@ -17,17 +17,18 @@ theme: /
         q!: $regex</start>
         intent: /Привет
         a:  Привет! Сыграем? Надеюсь, ты знаешь правила игры "Быки и коровы" ;)
+        #начинаем новую сессию
         script:
             $jsapi.startSession()
         go!: /NormalButtons
     
     state: CatchAll || noContext = true
-        event!: NoMatch
+        event!: noMatch
         random:
             a: Прости, я не понимаю тебя. Давай играть?
             a: Извини, я не знаю, что тебе ответить. Сыграем в игру?
             a: Кажется, я не понимаю, извини. Я хочу сыграть с тобой! 
-        go!: {{$session.lastState}}    
+        go!: {{$session.lastState}} 
             
     state: NormalButtons
         buttons:
@@ -38,51 +39,57 @@ theme: /
     
     state: Rules
         a: Я загадаю 4-значное число с неповторяющимися цифрами. Ты должен угадать его. После каждой попытки я буду называть тебе число "коров" (сколько цифр угадано без совпадения с их позициями в тайном числе) и "быков" (сколько цифр угадано вплоть до позиции в тайном числе). Теперь играем?
-    
+        go: /Rules/Agree
+        
         state: Agree
         
             state: Yes
-            intent: /Согласие
-            go: /Guess    
+                intent: /Согласие
+                go!: /Guess
         
             state: No
-            intent: /Несогласие
-            go: /Welcome
-        
+                intent: /Несогласие
+                go: /Welcome
+                
+            
     state: Guess
         random:
             a: Попробуй угадать число, которое я загадал!
             a: Угадывай!
             a: Сможешь угадать число? Введи его.
-        intent: /Попытка
-        go: /Game    
-    
-    
-    state: Game
+        # вызываем функцию, генерирующую случайное число и переходим в стейт /Check
         script:
-            num = $parseTree._Number;        
+            $session.number = GetSecretNumber(4);
+            # для проверки верности выполнения задачи:
+            # $reactions.answer("Загадано {{$session.number}}"); 
+
+    state: Check
+        intent: /Попытка
+        script:
+            # сохраняем введенное пользователем число и сгенерированное число в виде строки
+            var num = $parseTree._Number.toString();
+            var secret = $session.number.toString();
+            # проверяем, угадал ли пользователь загаданное число и выводим соответствующую реакцию
+            if (num == secret) {
+                $reactions.answer("Ты выиграл! Хочешь еще раз?");
+                $reactions.transition("/Rules/Agree");
+                $reactions.transition("/OneMore");
+            }
+            else {
+                if (num.length != secret.length) {
+                    $reactions.answer("Введи 4-значное число с неповторяющимися цифрами.");
+                }
+                else {
+                    $reactions.answer(Check(secret, num));
+                }
+            }
             
- 
- 
- 
-
-
-        
-#            if (num == $session.number) {
-#                $reactions.answer("У тебя получилось!");
-#                $reactions.transition("/OneMore");
-#            }
-#            else
-           
-        state: LocalCatchAll
-            event: noMatch
-            a: Пожалуйста, напиши 4-значное число с неповторяющимися цифрами.
-            go!: ..  
-
-    
     state: OneMore
         a: Новый раунд? 
-            buttons:
+        go: /Buttons    
+            
+    state: Buttons
+        buttons:
             "Играть ещё" -> /Guess
             "Отмена" -> /GoodBye
     
@@ -92,31 +99,3 @@ theme: /
             a: Уже хочу сыграть снова! 
             a: Возвращайся скорее. Сыграем еще раз!
         intent: /Пока
-            
-
-
-
-
-# console.log(countBullsAndCows($session.number, num))
-
-
-    
-  
-#    state: activityType || modal = true
-#        q!: * $activity *
-#        script:
-#            log(toPrettyString($parseTree));
-#            $session.type = $parseTree._activity;
-#        go!: /activityType/greatChoice
-        
-
-        
-#        state: greatChoice
-#            a: Great choice! Let's see what {{$session.type}} activity I can offer you.                    
-#           script: 
-#                $temp.task = getActivity($session.type);
-#            if: $temp.task 
-#                random:
-#                    a: «Коровы»: {}, "Быки": {}.
-#                go!: /activityType/Satisfaction
-#               

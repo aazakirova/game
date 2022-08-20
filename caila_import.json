@@ -34,6 +34,12 @@
       "text" : "ага"
     }, {
       "text" : "ок"
+    }, {
+      "text" : "окей"
+    }, {
+      "text" : "оки"
+    }, {
+      "text" : "окс"
     } ],
     "patterns" : [ ],
     "slots" : [ ],
@@ -55,22 +61,8 @@
       "text" : "гудбай"
     }, {
       "text" : "поки"
-    } ],
-    "patterns" : [ ],
-    "priority" : 0
-  }, {
-    "id" : 11917295,
-    "path" : "/Несогласие",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "нет"
     }, {
-      "text" : "не хочу"
-    }, {
-      "text" : "не буду"
-    }, {
-      "text" : "не будем"
+      "text" : "до скорой"
     } ],
     "patterns" : [ ],
     "priority" : 0
@@ -91,6 +83,38 @@
       "text" : "здорово"
     }, {
       "text" : "здравствуй"
+    }, {
+      "text" : "добрый день"
+    } ],
+    "patterns" : [ ],
+    "priority" : 0
+  }, {
+    "id" : 11933723,
+    "path" : "/Давай поиграем",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "играть"
+    }, {
+      "text" : "хочу играть "
+    }, {
+      "text" : "давай поиграем"
+    } ],
+    "patterns" : [ ],
+    "priority" : 0
+  }, {
+    "id" : 11917295,
+    "path" : "/Несогласие",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "нет"
+    }, {
+      "text" : "не хочу"
+    }, {
+      "text" : "не буду"
+    }, {
+      "text" : "не будем"
     } ],
     "patterns" : [ ],
     "priority" : 0
@@ -107,7 +131,7 @@
       "name" : "Number",
       "entity" : "duckling.number",
       "required" : true,
-      "prompts" : [ "Предложи свой вариант" ]
+      "prompts" : [ "Я загадал число. Твоя догадка?" ]
     } ],
     "priority" : 0
   } ],
