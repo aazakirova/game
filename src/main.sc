@@ -31,7 +31,7 @@ theme: /
             
     state: NormalButtons
         buttons:
-            "Начнем!" -> /Guess
+            "Начать" -> /Guess
             "Я не знаю правила" -> /Rules
             "Отмена" -> /Welcome
         go: /Guess
@@ -47,8 +47,8 @@ theme: /
                 go!: /Guess
         
             state: No
-                intent: /Несогласие
-                go: /Welcome
+                intent!: /Несогласие
+                go!: /Welcome
                 
     state: Guess
         random:
@@ -59,7 +59,7 @@ theme: /
         script:
             $session.number = GetSecretNumber(4);
             # для проверки верности выполнения задачи при неободимости:
-            # $reactions.answer("Загадано {{$session.number}}"); 
+            $reactions.answer("Загадано {{$session.number}}"); 
             
     state: Check
         intent: /Попытка
@@ -86,7 +86,7 @@ theme: /
             
     state: OneMore
         a: Новый раунд? 
-        q!: buttons
+        q: buttons
         buttons:
             "Играть ещё" -> /Guess
             "Отмена" -> /GoodBye
@@ -96,4 +96,5 @@ theme: /
             a: Было здорово! До встречи :)
             a: Уже хочу сыграть снова! 
             a: Возвращайся скорее. Сыграем еще раз!
-        intent: /Пока
+        intent!: /Пока
+        go!: /Welcome
