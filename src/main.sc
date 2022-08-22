@@ -58,11 +58,11 @@ theme: /
         # вызываем функцию, генерирующую случайное число и переходим в стейт /Check
         script:
             $session.number = GetSecretNumber(4);
-            # для проверки верности выполнения задачи при неободимости:
-            $reactions.answer("Загадано {{$session.number}}"); 
+            # для проверки верности выполнения задачи при необходимости:
+            # $reactions.answer("Загадано {{$session.number}}"); 
             
     state: Check
-        intent: /Попытка
+        intent!: /Попытка
         script:
             if ($parseTree._Number && $session.number) {
                 // сохраняем введенное пользователем число и сгенерированное число в виде строки
@@ -71,7 +71,6 @@ theme: /
                 // проверяем, угадал ли пользователь загаданное число и выводим соответствующую реакцию
                 if (num == secret) {
                     $reactions.answer("Ты выиграл!");
-                    $reactions.transition("/Rules/Agree");
                     $reactions.transition("/OneMore");
                 }
                 else {
@@ -82,6 +81,9 @@ theme: /
                         $reactions.answer(Check(secret, num));
                     }
                 }
+            }
+            else {
+                $reactions.answer("Введи 4-значное число с неповторяющимися цифрами.");
             }
             
     state: OneMore
